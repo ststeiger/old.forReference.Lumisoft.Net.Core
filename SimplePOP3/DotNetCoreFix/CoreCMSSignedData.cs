@@ -1,13 +1,14 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 using Org.BouncyCastle.Cms;
 
 
-
 namespace System.Security.Cryptography.Pkcs
 {
+    
 
     public class CmsSigner
     {
@@ -19,16 +20,83 @@ namespace System.Security.Cryptography.Pkcs
 
     }
 
-    public class ContentInfo
+
+    public class SignedCms
     {
-        public ContentInfo(byte[] bb)
+
+        // Property ?
+        // public ContentInfo ContentInfo;
+        protected ContentInfo m_ContentInfo;
+
+        
+        public ContentInfo ContentInfo
+        {
+            get
+            {
+                return this.m_ContentInfo;
+            }
+            set
+            {
+                this.m_ContentInfo = value;
+            }
+        }
+
+
+
+        public SignedCms()
+        { }
+
+        // SignedCms(new ContentInfo(tmpDataEntityStream.ToArray()),true);
+        public SignedCms(ContentInfo ci, bool b)
+        {
+        }
+
+
+
+        // signedCms.ComputeSignature(new CmsSigner(m_pSignerCert));
+
+        // byte[] pkcs7 = signedCms.Encode();
+        public byte[] Encode()
+        {
+            return null;
+        }
+
+
+        public void Decode(byte[] data)
+        {
+
+        }
+
+        public void CheckSignature(bool b)
+        {
+
+        }
+
+        public void ComputeSignature(CmsSigner signer)
         { }
 
 
-        // Make Property ?
-        public byte[] Content;
+        public System.Security.Cryptography.X509Certificates.X509Certificate2Collection Certificates
+        {
+            get
+            {
+                return null;
+            }
+        }
+
 
     }
+
+
+}
+
+
+
+#if false
+
+namespace System.Security.Cryptography.Pkcs
+{
+
 
 
     public class EnvelopedCms
@@ -123,3 +191,5 @@ namespace System.Security.Cryptography.Pkcs
 
     }
 }
+
+#endif
