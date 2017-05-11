@@ -3,15 +3,14 @@
 OMITTED: _Obsolete(Partial), HTTP, Media, RTP, SIP, SNTP (nothing)
 ,SPF, URI, WebDav
 
-IMAP_Session.cs -- Timer
+IMAP_Session.cs -- Timer might not be correct 
 
 
-Absole => Net_Core -- dispose MD5
+_Obsole => Net_Core.cs -- dispose MD5
 
+Fix Spelling: tochallange
 
-tochallange
-
-net utils public static string ComputeMd5(string text, bool hex)
+Net_Utils.cs => public static string ComputeMd5(string text, bool hex)
  - no dispose
 
 
@@ -19,7 +18,7 @@ TCP_Client.cs
 unnecessary using System.Runtime.Remoting.Messaging;
 unnecessary using System.Collections.Generic;
 
-UPnP_NAT_Client.cs => SendCommand" not implemented
+UPnP_NAT_Client.cs => SendCommand" not yet implemented
 private string SendCommand(string method, string soapData)
 
 TODO: CoreCMSSignedData
@@ -30,7 +29,7 @@ System.Xml.XmlExtensions ==> added assembly
 
 
 SIP_Flow.cs
-. in region
+. in region ? 
 
 
 TCP_Server.cs => removed 
@@ -38,3 +37,6 @@ TCP_Server.cs => removed
             m_pTimer_IdleTimeout.Elapsed += new System.Timers.ElapsedEventHandler(m_pTimer_IdleTimeout_Elapsed);
             m_pTimer_IdleTimeout.Enabled = true;
 
+
+In General:
+Check if System.Threading.Timer-replacement works as it should ...
