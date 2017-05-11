@@ -1,0 +1,40 @@
+﻿
+
+OMITTED: _Obsolete(Partial), HTTP, Media, RTP, SIP, SNTP (nothing)
+,SPF, URI, WebDav
+
+IMAP_Session.cs -- Timer
+
+
+Absole => Net_Core -- dispose MD5
+
+
+tochallange
+
+net utils public static string ComputeMd5(string text, bool hex)
+ - no dispose
+
+
+TCP_Client.cs
+unnecessary using System.Runtime.Remoting.Messaging;
+unnecessary using System.Collections.Generic;
+
+UPnP_NAT_Client.cs => SendCommand" not implemented
+private string SendCommand(string method, string soapData)
+
+TODO: CoreCMSSignedData
+TODO: System.Drawing
+
+
+System.Xml.XmlExtensions ==> added assembly
+
+
+SIP_Flow.cs
+. in region
+
+
+TCP_Server.cs => removed 
+  m_pTimer_IdleTimeout = new TimerEx(30000, true);
+            m_pTimer_IdleTimeout.Elapsed += new System.Timers.ElapsedEventHandler(m_pTimer_IdleTimeout_Elapsed);
+            m_pTimer_IdleTimeout.Enabled = true;
+

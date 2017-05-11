@@ -1,0 +1,50 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net", "Net\Net.csproj", "{7AB36CCF-5FFD-4780-A54E-A102ECA028B5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimplePOP3", "SimplePOP3\SimplePOP3.csproj", "{C36ACF0C-1B97-475B-AC31-3EDA34326FBC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BouncyCastle", "BouncyCastle\BouncyCastle.csproj", "{66141BED-BE1C-4BDB-ACED-4FE1B2BC604C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7AB36CCF-5FFD-4780-A54E-A102ECA028B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AB36CCF-5FFD-4780-A54E-A102ECA028B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AB36CCF-5FFD-4780-A54E-A102ECA028B5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7AB36CCF-5FFD-4780-A54E-A102ECA028B5}.Debug|x86.Build.0 = Debug|Any CPU
+		{7AB36CCF-5FFD-4780-A54E-A102ECA028B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AB36CCF-5FFD-4780-A54E-A102ECA028B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AB36CCF-5FFD-4780-A54E-A102ECA028B5}.Release|x86.ActiveCfg = Release|Any CPU
+		{C36ACF0C-1B97-475B-AC31-3EDA34326FBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C36ACF0C-1B97-475B-AC31-3EDA34326FBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C36ACF0C-1B97-475B-AC31-3EDA34326FBC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C36ACF0C-1B97-475B-AC31-3EDA34326FBC}.Debug|x86.Build.0 = Debug|Any CPU
+		{C36ACF0C-1B97-475B-AC31-3EDA34326FBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C36ACF0C-1B97-475B-AC31-3EDA34326FBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C36ACF0C-1B97-475B-AC31-3EDA34326FBC}.Release|x86.ActiveCfg = Release|Any CPU
+		{C36ACF0C-1B97-475B-AC31-3EDA34326FBC}.Release|x86.Build.0 = Release|Any CPU
+		{66141BED-BE1C-4BDB-ACED-4FE1B2BC604C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66141BED-BE1C-4BDB-ACED-4FE1B2BC604C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66141BED-BE1C-4BDB-ACED-4FE1B2BC604C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{66141BED-BE1C-4BDB-ACED-4FE1B2BC604C}.Debug|x86.Build.0 = Debug|Any CPU
+		{66141BED-BE1C-4BDB-ACED-4FE1B2BC604C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66141BED-BE1C-4BDB-ACED-4FE1B2BC604C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66141BED-BE1C-4BDB-ACED-4FE1B2BC604C}.Release|x86.ActiveCfg = Release|Any CPU
+		{66141BED-BE1C-4BDB-ACED-4FE1B2BC604C}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+EndGlobal
