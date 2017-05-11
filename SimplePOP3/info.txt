@@ -24,6 +24,8 @@ private string SendCommand(string method, string soapData)
 TODO: CoreCMSSignedData
 TODO: System.Drawing
 
+TODO: AUTH_Gmail_OAuth1_3leg
+
 
 System.Xml.XmlExtensions ==> added assembly
 
