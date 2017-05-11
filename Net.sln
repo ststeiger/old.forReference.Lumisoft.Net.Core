@@ -8,6 +8,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimplePOP3", "SimplePOP3\Si
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BouncyCastle", "BouncyCastle\BouncyCastle.csproj", "{66141BED-BE1C-4BDB-ACED-4FE1B2BC604C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{74AEA586-8C1C-4337-800C-19CDD0EFD859}"
+	ProjectSection(SolutionItems) = preProject
+		donate.txt = donate.txt
+		license.txt = license.txt
+		readme.txt = readme.txt
+		ToDo.txt = ToDo.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
