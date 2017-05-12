@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,22 +7,22 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Principal;
 
+
 using LumiSoft.Net.IO;
 using LumiSoft.Net.TCP;
 using LumiSoft.Net.AUTH;
 
 
-// using System.Data;
-// using System.Globalization;
-
-
 namespace LumiSoft.Net.FTP.Server
 {
+
+
     /// <summary>
     /// FTP Session.
     /// </summary>
     public class FTP_Session : TCP_ServerSession
     {
+
 
         /// <summary>
         /// This class represents FTP session data connection.
@@ -111,29 +112,15 @@ namespace LumiSoft.Net.FTP.Server
                     WriteLine("150 Waiting data connection on port '" + ((IPEndPoint)m_pSession.m_pPassiveSocket.LocalEndPoint).Port + "'.");
 
                     // Start connection wait timeout timer.
-                    //TimerEx timer = new TimerEx(10000,false);
-                    //timer.Elapsed += delegate(object sender,System.Timers.ElapsedEventArgs e){
-                    //    WriteLine("550 Data connection wait timeout.");
-                    //    Dispose();
-                    //};
-                    //timer.Enabled = true;
-
-                    System.Threading.Timer timer = new System.Threading.Timer(
-
-                        new System.Threading.TimerCallback(delegate (object sender)
-                        {
-                            WriteLine("550 Data connection wait timeout.");
-                            Dispose();
-                        }
-                        )
-                        , null, new System.TimeSpan(0),
-                        new System.TimeSpan(0, 0, 10)
-                    );
-
+                    TimerEx timer = new TimerEx(10000, false);
+                    timer.Elapsed += delegate (object sender, System.Timers.ElapsedEventArgs e) {
+                        WriteLine("550 Data connection wait timeout.");
+                        Dispose();
+                    };
+                    timer.Enabled = true;
 
                     m_pSession.m_pPassiveSocket.BeginAccept(
-                        delegate (IAsyncResult ar)
-                        {
+                        delegate (IAsyncResult ar) {
                             try
                             {
                                 timer.Dispose();
@@ -162,8 +149,7 @@ namespace LumiSoft.Net.FTP.Server
                     m_pSocket = new Socket(m_pSession.LocalEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                     m_pSocket.BeginConnect(
                         m_pSession.m_pDataConEndPoint,
-                        delegate (IAsyncResult ar)
-                        {
+                        delegate (IAsyncResult ar) {
                             try
                             {
                                 m_pSocket.EndConnect(ar);
@@ -437,8 +423,7 @@ namespace LumiSoft.Net.FTP.Server
             {
                 SmartStream.ReadLineAsyncOP readLineOP = new SmartStream.ReadLineAsyncOP(new byte[32000], SizeExceededAction.JunkAndThrowException);
                 // This event is raised only when read next coomand completes asynchronously.
-                readLineOP.Completed += new EventHandler<EventArgs<SmartStream.ReadLineAsyncOP>>(delegate (object sender, EventArgs<SmartStream.ReadLineAsyncOP> e)
-                {
+                readLineOP.Completed += new EventHandler<EventArgs<SmartStream.ReadLineAsyncOP>>(delegate (object sender, EventArgs<SmartStream.ReadLineAsyncOP> e) {
                     if (ProcessCmd(readLineOP))
                     {
                         BeginReadCmd();
@@ -2317,8 +2302,7 @@ namespace LumiSoft.Net.FTP.Server
         }
 
 
-
-
-
     }
+
+
 }

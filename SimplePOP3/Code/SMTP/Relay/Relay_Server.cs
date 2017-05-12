@@ -44,7 +44,7 @@ namespace LumiSoft.Net.SMTP.Relay
         private TCP_SessionCollection<Relay_Session> m_pSessions = null;
         private Dictionary<IPAddress, long> m_pConnectionsPerIP = null;
         private int m_SessionIdleTimeout = 30;
-        private System.Threading.Timer m_pTimerTimeout = null;
+        private TimerEx m_pTimerTimeout = null;
         private Logger m_pLogger = null;
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace LumiSoft.Net.SMTP.Relay
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">Event data.</param>
-        private void m_pTimerTimeout_Elapsed(object sender)
+        private void m_pTimerTimeout_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             try
             {
@@ -154,10 +154,9 @@ namespace LumiSoft.Net.SMTP.Relay
             Thread tr1 = new Thread(new ThreadStart(this.Run));
             tr1.Start();
 
-            m_pTimerTimeout = new System.Threading.Timer(
-                new System.Threading.TimerCallback(m_pTimerTimeout_Elapsed)
-                , null, new System.TimeSpan(0), new System.TimeSpan(0, 0, 30)
-                );
+            m_pTimerTimeout = new TimerEx(30000);
+            m_pTimerTimeout.Elapsed += new System.Timers.ElapsedEventHandler(m_pTimerTimeout_Elapsed);
+            m_pTimerTimeout.Start();
         }
 
 

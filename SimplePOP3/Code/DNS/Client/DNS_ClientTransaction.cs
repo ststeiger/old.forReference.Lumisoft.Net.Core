@@ -1,9 +1,10 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
-using System.Net.Sockets;
 using System.Threading;
+
 
 namespace LumiSoft.Net.DNS.Client
 {
@@ -19,7 +20,7 @@ namespace LumiSoft.Net.DNS.Client
         private int m_ID = 1;
         private string m_QName = "";
         private DNS_QType m_QType = 0;
-        private System.Threading.Timer m_pTimeoutTimer = null;
+        private TimerEx m_pTimeoutTimer = null;
         private DnsServerResponse m_pResponse = null;
         private int m_ResponseCount = 0;
 
@@ -49,11 +50,8 @@ namespace LumiSoft.Net.DNS.Client
             m_QType = qtype;
 
             m_CreateTime = DateTime.Now;
-
-            new System.Threading.Timer(
-                new System.Threading.TimerCallback(m_pTimeoutTimer_Elapsed)
-                , null, new System.TimeSpan(0, 0, 0), new System.TimeSpan(0, 0, timeout / 1000)
-            );
+            m_pTimeoutTimer = new TimerEx(timeout);
+            m_pTimeoutTimer.Elapsed += new System.Timers.ElapsedEventHandler(m_pTimeoutTimer_Elapsed);
         }
 
 
@@ -96,7 +94,7 @@ namespace LumiSoft.Net.DNS.Client
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">Event data.</param>
-        private void m_pTimeoutTimer_Elapsed(object sender)
+        private void m_pTimeoutTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             try
             {
@@ -164,7 +162,7 @@ namespace LumiSoft.Net.DNS.Client
                         }
                     }
 
-                    // m_pTimeoutTimer.Start();
+                    m_pTimeoutTimer.Start();
                 }
                 catch
                 {
@@ -470,7 +468,7 @@ namespace LumiSoft.Net.DNS.Client
         }
 
 
-
-
     }
+
+
 }

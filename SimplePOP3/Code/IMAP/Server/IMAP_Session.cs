@@ -5299,19 +5299,18 @@ namespace LumiSoft.Net.IMAP.Server
 
             m_pResponseSender.SendResponseAsync(new IMAP_r_ServerStatus("+", "idling"));
 
-            System.Threading.Timer timer = new System.Threading.Timer(
-                new System.Threading.TimerCallback(delegate (object sender)
+            TimerEx timer = new TimerEx(30000, true);
+            timer.Elapsed += new System.Timers.ElapsedEventHandler(delegate (object sender, System.Timers.ElapsedEventArgs e)
+            {
+                try
                 {
-                    try
-                    {
-                        UpdateSelectedFolderAndSendChanges();
-                    }
-                    catch
-                    {
-                    }
-                }), null
-                , new System.TimeSpan(0), new System.TimeSpan(0, 0, 30)
-            );
+                    UpdateSelectedFolderAndSendChanges();
+                }
+                catch
+                {
+                }
+            });
+            timer.Enabled = true;
 
 
             // Read client response. 

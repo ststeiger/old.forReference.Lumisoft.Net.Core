@@ -1,14 +1,17 @@
+
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
 using LumiSoft.Net.Log;
 
+
 namespace LumiSoft.Net.TCP
 {
+
+
     /// <summary>
     /// This class implements generic TCP session based server.
     /// </summary>
@@ -175,10 +178,6 @@ namespace LumiSoft.Net.TCP
 
                             IOCompletionAccept();
                         }
-
-
-
-
                         else
                         {
                             m_pSocket.BeginAccept(new AsyncCallback(this.AsyncSocketAccept), null);
@@ -342,9 +341,7 @@ namespace LumiSoft.Net.TCP
         private List<TCP_Acceptor> m_pConnectionAcceptors = null;
         private List<ListeningPoint> m_pListeningPoints = null;
         private TCP_SessionCollection<TCP_ServerSession> m_pSessions = null;
-        private System.Threading.Timer m_pTimer_IdleTimeout = null;
-
-
+        private TimerEx m_pTimer_IdleTimeout = null;
 
         /// <summary>
         /// Default constructor.
@@ -407,7 +404,7 @@ namespace LumiSoft.Net.TCP
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">Event data.</param>
-        private void m_pTimer_IdleTimeout_Elapsed(object sender)
+        private void m_pTimer_IdleTimeout_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             try
             {
@@ -468,13 +465,10 @@ namespace LumiSoft.Net.TCP
                 StartListen();
             }));
 
+            m_pTimer_IdleTimeout = new TimerEx(30000, true);
+            m_pTimer_IdleTimeout.Elapsed += new System.Timers.ElapsedEventHandler(m_pTimer_IdleTimeout_Elapsed);
+            m_pTimer_IdleTimeout.Enabled = true;
 
-            m_pTimer_IdleTimeout = new System.Threading.Timer(
-                new System.Threading.TimerCallback(m_pTimer_IdleTimeout_Elapsed)
-                , null, new System.TimeSpan(0), new System.TimeSpan(0, 0, 30)
-            );
-
-          
             OnStarted();
         }
 
@@ -953,6 +947,7 @@ namespace LumiSoft.Net.TCP
                 m_pLogger = value;
             }
         }
+
 
         /// <summary>
         /// Gets the time when server was started.

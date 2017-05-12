@@ -1,49 +1,24 @@
 ﻿
+// Copyright 2017-+infinity Stefan Steiger
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+
+// Substitue for InvariantCultureIgnoreCase for .NET Core and rest
+
+
 namespace System
 {
-    namespace Text
-    {
-        public class Encoding2
-        {
-            public static System.Text.Encoding Default = System.Text.Encoding.GetEncoding(0);
-
-            public static System.Text.Encoding Def
-            {
-                get
-                {
-                    return System.Text.Encoding.GetEncoding(0);
-                }
-            }
-
-
-
-            // to get the default encoding.
-        }
-    }
-
-    public static class StringExtensions
-    {
-        
-        //
-        // Summary:
-        //     Returns a copy of this string converted to uppercase, using the casing rules
-        //     of the specified culture.
-        //
-        // Parameters:
-        //   culture:
-        //     An object that supplies culture-specific casing rules.
-        //
-        // Returns:
-        //     The uppercase equivalent of the current string.
-        //
-        // Exceptions:
-        //   T:System.ArgumentNullException:
-        //     culture is null.
-        public static string ToUpper(this string s, System.Globalization.CultureInfo ci)
-        {
-            return ci.TextInfo.ToUpper(s);
-        }
-    }
 
 
     //
@@ -171,7 +146,7 @@ namespace System
         }
 
 
-    }
+    } // End Class StringExtensions 
 
 
     public class InvariantCultureIgnoreCaseImpl
@@ -180,7 +155,6 @@ namespace System
         , System.Collections.IComparer
         , System.Collections.IEqualityComparer
     {
-
 
         int System.Collections.Generic.IComparer<string>.Compare(string x, string y)
         {
@@ -243,4 +217,4 @@ namespace System
     } // End Class InvariantCultureIgnoreCase
 
 
-} // End Namespace SimplePOP3 
+} // End Namespace System 

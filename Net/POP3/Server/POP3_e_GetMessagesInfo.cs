@@ -1,10 +1,12 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Security.Principal;
+
 
 namespace LumiSoft.Net.POP3.Server
 {
+
+
     /// <summary>
     /// This class provides data for <see cref="POP3_Session.GetMessagesInfo"/> event.
     /// </summary>
@@ -21,7 +23,6 @@ namespace LumiSoft.Net.POP3.Server
         }
 
 
-        
         /// <summary>
         /// Gets POP3 messages info collection.
         /// </summary>
@@ -32,4 +33,6 @@ namespace LumiSoft.Net.POP3.Server
 
         
     }
+
+
 }

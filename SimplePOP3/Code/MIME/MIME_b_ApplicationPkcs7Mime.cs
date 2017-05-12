@@ -1,14 +1,16 @@
-﻿using System;
+﻿
+using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Text;
 using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
 
 using LumiSoft.Net.IO;
 
+
 namespace LumiSoft.Net.MIME
 {
+
+
     /// <summary>
     /// This class represents MIME application/pkcs7-mime body. Defined in RFC 5751 3.2.
     /// </summary>

@@ -1,13 +1,8 @@
 ﻿
-
-OMITTED: _Obsolete(Partial), HTTP, Media, RTP, SIP, SNTP (nothing)
-,SPF, URI, WebDav
-
-IMAP_Session.cs -- Timer might not be correct 
+OMITTED: _Obsolete(Partial), HTTP, Media, RTP, SIP, SNTP (nothing), SPF, URI, WebDav
 
 
 _Obsole => Net_Core.cs -- dispose MD5
-
 Fix Spelling: tochallange
 
 Net_Utils.cs => public static string ComputeMd5(string text, bool hex)
@@ -23,7 +18,6 @@ private string SendCommand(string method, string soapData)
 
 TODO: CoreCMSSignedData
 TODO: System.Drawing
-
 TODO: AUTH_Gmail_OAuth1_3leg
 
 
@@ -32,13 +26,3 @@ System.Xml.XmlExtensions ==> added assembly
 
 SIP_Flow.cs
 . in region ? 
-
-
-TCP_Server.cs => removed 
-  m_pTimer_IdleTimeout = new TimerEx(30000, true);
-            m_pTimer_IdleTimeout.Elapsed += new System.Timers.ElapsedEventHandler(m_pTimer_IdleTimeout_Elapsed);
-            m_pTimer_IdleTimeout.Enabled = true;
-
-
-In General:
-Check if System.Threading.Timer-replacement works as it should ...

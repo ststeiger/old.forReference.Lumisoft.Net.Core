@@ -1,22 +1,25 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
-using System.Text;
+
 
 namespace LumiSoft.Net.DNS.Client
 {
+
+
     /// <summary>
     /// This class implements DNS client cache.
     /// </summary>
     public class DNS_ClientCache
     {
-        
+
         /// <summary>
         /// This class represents DNS cache entry.
         /// </summary>
         private class CacheEntry
         {
             private DnsServerResponse m_pResponse = null;
-            private DateTime          m_Expires;
+            private DateTime m_Expires;
 
             /// <summary>
             /// Default constructor.
@@ -24,24 +27,25 @@ namespace LumiSoft.Net.DNS.Client
             /// <param name="response">DNS server response.</param>
             /// <param name="expires">Time when cache entry expires.</param>
             /// <exception cref="ArgumentNullException">Is raised when <b>response</b> is null reference.</exception>
-            public CacheEntry(DnsServerResponse response,DateTime expires)
+            public CacheEntry(DnsServerResponse response, DateTime expires)
             {
-                if(response == null){
+                if (response == null)
+                {
                     throw new ArgumentNullException("response");
                 }
 
                 m_pResponse = response;
-                m_Expires   = expires;
+                m_Expires = expires;
             }
 
 
-            
+
             /// <summary>
             /// Gets DNS server response.
             /// </summary>
             public DnsServerResponse Response
             {
-                get{ return m_pResponse; }
+                get { return m_pResponse; }
             }
 
             /// <summary>
@@ -49,37 +53,32 @@ namespace LumiSoft.Net.DNS.Client
             /// </summary>
             public DateTime Expires
             {
-                get{ return m_Expires; }
+                get { return m_Expires; }
             }
 
-            
+
         }
 
-        
 
-        private Dictionary<string,CacheEntry> m_pCache              = null;
-        private int                           m_MaxCacheTtl         = 86400;
-        private int                           m_MaxNegativeCacheTtl = 900;
-        private System.Threading.Timer                       m_pTimerTimeout       = null;
+
+        private Dictionary<string, CacheEntry> m_pCache = null;
+        private int m_MaxCacheTtl = 86400;
+        private int m_MaxNegativeCacheTtl = 900;
+        private TimerEx m_pTimerTimeout = null;
 
         /// <summary>
         /// Default constructor.
         /// </summary>
         internal DNS_ClientCache()
         {
-            m_pCache = new Dictionary<string,CacheEntry>();
+            m_pCache = new Dictionary<string, CacheEntry>();
 
-            // m_pTimerTimeout = new TimerEx(60000);
-
-            m_pTimerTimeout = new System.Threading.Timer(
-                new System.Threading.TimerCallback(m_pTimerTimeout_Elapsed)
-                , null
-                , new System.TimeSpan(0, 0, 0)
-                , new System.TimeSpan(0, 0, 60)
-            );
+            m_pTimerTimeout = new TimerEx(60000);
+            m_pTimerTimeout.Elapsed += new System.Timers.ElapsedEventHandler(m_pTimerTimeout_Elapsed);
+            m_pTimerTimeout.Start();
         }
 
-        
+
         /// <summary>
         /// Cleans up any resources being used.
         /// </summary>
@@ -91,143 +90,163 @@ namespace LumiSoft.Net.DNS.Client
             m_pTimerTimeout = null;
         }
 
-        
 
 
-        
-        
+
+
+
         /// <summary>
         /// Is called when cache expired entries check timer triggers.
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">Event data.</param>
-        private void m_pTimerTimeout_Elapsed(object sender)
+        private void m_pTimerTimeout_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            lock(m_pCache){
+            lock (m_pCache)
+            {
                 // Copy entries to new array.
-                List<KeyValuePair<string,CacheEntry>> values = new List<KeyValuePair<string,CacheEntry>>();
-                foreach(KeyValuePair<string,CacheEntry> entry in m_pCache){
+                List<KeyValuePair<string, CacheEntry>> values = new List<KeyValuePair<string, CacheEntry>>();
+                foreach (KeyValuePair<string, CacheEntry> entry in m_pCache)
+                {
                     values.Add(entry);
                 }
 
                 // Remove expired cache entries.
-                foreach(KeyValuePair<string,CacheEntry> entry in values){
-                    if(DateTime.Now > entry.Value.Expires){
+                foreach (KeyValuePair<string, CacheEntry> entry in values)
+                {
+                    if (DateTime.Now > entry.Value.Expires)
+                    {
                         m_pCache.Remove(entry.Key);
                     }
                 }
             }
         }
 
-        
-
-        
 
 
-        
+
+
+
+
         /// <summary>
-		/// Gets DNS server cached response or null if no cached result.
-		/// </summary>
-		/// <param name="qname">Query name.</param>
-		/// <param name="qtype">Query type.</param>
-		/// <returns>Returns DNS server cached response or null if no cached result.</returns>
+        /// Gets DNS server cached response or null if no cached result.
+        /// </summary>
+        /// <param name="qname">Query name.</param>
+        /// <param name="qtype">Query type.</param>
+        /// <returns>Returns DNS server cached response or null if no cached result.</returns>
         /// <exception cref="ArgumentNullException">Is raised when <b>qname</b> is null reference.</exception>
         /// <exception cref="ArgumentException">Is raised when any of the arguments has invalid value.</exception>
-		public DnsServerResponse GetFromCache(string qname,int qtype)
-		{
-            if(qname == null){
+        public DnsServerResponse GetFromCache(string qname, int qtype)
+        {
+            if (qname == null)
+            {
                 throw new ArgumentNullException("qname");
             }
-            if(qname == string.Empty){
-                throw new ArgumentException("Argument 'qname' value must be specified.","qname");
+            if (qname == string.Empty)
+            {
+                throw new ArgumentException("Argument 'qname' value must be specified.", "qname");
             }
 
             CacheEntry entry = null;
-            if(m_pCache.TryGetValue(qname + qtype,out entry)){
+            if (m_pCache.TryGetValue(qname + qtype, out entry))
+            {
                 // Cache entry has expired.
-                if(DateTime.Now > entry.Expires){
+                if (DateTime.Now > entry.Expires)
+                {
                     return null;
                 }
-                else{
+                else
+                {
                     return entry.Response;
                 }
             }
-            else{
+            else
+            {
                 return null;
             }
-		}
+        }
 
-		
 
-        
-		/// <summary>
-		/// Adds dns records to cache. If old entry exists, it is replaced.
-		/// </summary>
-		/// <param name="qname">Query name.</param>
-		/// <param name="qtype">Query type.</param>
-		/// <param name="response">DNS server response.</param>
+
+
+        /// <summary>
+        /// Adds dns records to cache. If old entry exists, it is replaced.
+        /// </summary>
+        /// <param name="qname">Query name.</param>
+        /// <param name="qtype">Query type.</param>
+        /// <param name="response">DNS server response.</param>
         /// <exception cref="ArgumentNullException">Is raised when <b>qname</b> or <b>response</b> is null reference.</exception>
         /// <exception cref="ArgumentException">Is raised when any of the arguments has invalid value.</exception>
-		public void AddToCache(string qname,int qtype,DnsServerResponse response)
-		{
-            if(qname == null){
+        public void AddToCache(string qname, int qtype, DnsServerResponse response)
+        {
+            if (qname == null)
+            {
                 throw new ArgumentNullException("qname");
             }
-            if(qname == string.Empty){
-                throw new ArgumentException("Argument 'qname' value must be specified.","qname");
+            if (qname == string.Empty)
+            {
+                throw new ArgumentException("Argument 'qname' value must be specified.", "qname");
             }
-			if(response == null){
-				throw new ArgumentNullException("response");
-			}
+            if (response == null)
+            {
+                throw new ArgumentNullException("response");
+            }
 
-	        lock(m_pCache){
-			    // Remove old cache entry, if any.
-				if(m_pCache.ContainsKey(qname + qtype)){
-				    m_pCache.Remove(qname + qtype);
-			    }
+            lock (m_pCache)
+            {
+                // Remove old cache entry, if any.
+                if (m_pCache.ContainsKey(qname + qtype))
+                {
+                    m_pCache.Remove(qname + qtype);
+                }
 
-                if(response.ResponseCode == DNS_RCode.NO_ERROR){
+                if (response.ResponseCode == DNS_RCode.NO_ERROR)
+                {
                     int ttl = m_MaxCacheTtl;
                     // Search smallest DNS record TTL and use it.
-                    foreach(DNS_rr rr in response.AllAnswers){
-                        if(rr.TTL < ttl){
+                    foreach (DNS_rr rr in response.AllAnswers)
+                    {
+                        if (rr.TTL < ttl)
+                        {
                             ttl = rr.TTL;
                         }
                     }
 
-                    m_pCache.Add(qname + qtype,new CacheEntry(response,DateTime.Now.AddSeconds(ttl)));
+                    m_pCache.Add(qname + qtype, new CacheEntry(response, DateTime.Now.AddSeconds(ttl)));
                 }
-                else{
-                    m_pCache.Add(qname + qtype,new CacheEntry(response,DateTime.Now.AddSeconds(m_MaxNegativeCacheTtl)));
+                else
+                {
+                    m_pCache.Add(qname + qtype, new CacheEntry(response, DateTime.Now.AddSeconds(m_MaxNegativeCacheTtl)));
                 }
-			}
-		}
-
-		
-
-        
-		/// <summary>
-		/// Clears DNS cache.
-		/// </summary>
-		public void ClearCache()
-		{
-			lock(m_pCache){
-				m_pCache.Clear();
-			}
-		}
-
-		
+            }
+        }
 
 
-        
+
+
+        /// <summary>
+        /// Clears DNS cache.
+        /// </summary>
+        public void ClearCache()
+        {
+            lock (m_pCache)
+            {
+                m_pCache.Clear();
+            }
+        }
+
+
+
+
+
         /// <summary>
         /// Gets or sets maximum number of seconds to cache positive DNS responses.
         /// </summary>
         public int MaxCacheTtl
         {
-            get{ return m_MaxCacheTtl; }
+            get { return m_MaxCacheTtl; }
 
-            set{ m_MaxCacheTtl = value; }
+            set { m_MaxCacheTtl = value; }
         }
 
         /// <summary>
@@ -235,9 +254,9 @@ namespace LumiSoft.Net.DNS.Client
         /// </summary>
         public int MaxNegativeCacheTtl
         {
-            get{ return m_MaxNegativeCacheTtl; }
+            get { return m_MaxNegativeCacheTtl; }
 
-            set{ m_MaxNegativeCacheTtl = value; }
+            set { m_MaxNegativeCacheTtl = value; }
         }
 
         /// <summary>
@@ -245,9 +264,11 @@ namespace LumiSoft.Net.DNS.Client
         /// </summary>
         public int Count
         {
-            get{ return m_pCache.Count; }
+            get { return m_pCache.Count; }
         }
 
-        
+
     }
+
+
 }

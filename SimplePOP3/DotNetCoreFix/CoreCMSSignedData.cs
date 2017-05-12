@@ -1,26 +1,68 @@
 ﻿
+// Copyright 2017-+infinity Stefan Steiger
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+
+// Simulates CmsSigner, SignedCms for .NET Core 
+
+
+#define DOTNETCORE_LEGACY_COMPATIBILITY 
+#if DOTNETCORE_LEGACY_COMPATIBILITY
+
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 using Org.BouncyCastle.Cms;
 
-
+// CMS: https://en.wikipedia.org/wiki/Cryptographic_Message_Syntax
+// PKCS: https://en.wikipedia.org/wiki/PKCS
 namespace System.Security.Cryptography.Pkcs
 {
-    
 
+
+    // https://github.com/mono/mono/blob/master/mcs/class/System.Security/System.Security.Cryptography.Pkcs/CmsSigner.cs
+    // https://referencesource.microsoft.com/#System.Security/system/security/cryptography/pkcs/pkcs7signer.cs
     public class CmsSigner
     {
 
         public CmsSigner(System.Security.Cryptography.X509Certificates.X509Certificate2 cert)
         {
+            byte[] data = null;
+            CmsProcessable msg = new Org.BouncyCastle.Cms.CmsProcessableByteArray(data);
+
+            CmsSignedDataGenerator gen = new CmsSignedDataGenerator();
+            var sha1Signer = Org.BouncyCastle.Security.SignerUtilities.GetSigner("SHA1withRSA");
+
+            /*
+            new 
+
+            gen.AddSignerInfoGenerator(new SignerInfoGeneratorBuilder()
+                .Build(sha1Signer, null);
+            */
+            // gen.AddCertificates(certs);
+            gen.Generate(msg, false);
+
 
         }
 
     }
 
 
+    // https://github.com/mono/mono/blob/master/mcs/class/System.Security/System.Security.Cryptography.Pkcs/SignedCms.cs
+    // https://referencesource.microsoft.com/#System.Security/system/security/cryptography/pkcs/signedpkcs7.cs
     public class SignedCms
     {
 
@@ -28,7 +70,7 @@ namespace System.Security.Cryptography.Pkcs
         // public ContentInfo ContentInfo;
         protected ContentInfo m_ContentInfo;
 
-        
+
         public ContentInfo ContentInfo
         {
             get
@@ -193,3 +235,5 @@ namespace System.Security.Cryptography.Pkcs
 }
 
 #endif
+
+#endif 

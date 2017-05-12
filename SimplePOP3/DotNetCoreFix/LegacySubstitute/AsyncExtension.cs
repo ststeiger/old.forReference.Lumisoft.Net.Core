@@ -1,4 +1,27 @@
 ﻿
+// Copyright 2017-+infinity Stefan Steiger
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+
+// Simulates Various .NET 
+
+
+#define DOTNETCORE_LEGACY_COMPATIBILITY 
+#if DOTNETCORE_LEGACY_COMPATIBILITY
+
+
+
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
@@ -8,13 +31,7 @@ namespace System
 {
 
 
-    public class SerializableAttribute : System.Attribute
-    {
-
-    }
-
-
-    static class NetExtension
+    internal static class AsyncExtension
     {
 
 
@@ -24,7 +41,7 @@ namespace System
                                    object state)
         {
             if (task == null)
-                throw new ArgumentNullException("task");
+                throw new ArgumentNullException(nameof(task));
 
             var tcs = new TaskCompletionSource<bool>(state);
 
@@ -39,6 +56,7 @@ namespace System
                 if (callback != null)
                     callback(tcs.Task);
             }, TaskScheduler.Default);
+
             return tcs.Task;
         }
 
@@ -47,7 +65,7 @@ namespace System
                                     object state)
         {
             if (task == null)
-                throw new ArgumentNullException("task");
+                throw new ArgumentNullException(nameof(task));
 
             var tcs = new TaskCompletionSource<T>(state);
             task.ContinueWith(t =>
@@ -62,6 +80,7 @@ namespace System
                 if (callback != null)
                     callback(tcs.Task);
             }, TaskScheduler.Default);
+
             return tcs.Task;
         }
 
@@ -113,23 +132,19 @@ namespace System
 
 
         public static void Close(this UdpClient udpClient)
-        {
-        }
+        { }
 
 
         public static void Close(this TcpClient tcpClient)
-        {
-        }
+        { }
 
 
         public static void Close(this System.Threading.WaitHandle handle)
-        {
-        }
+        { }
 
 
         public static void Close(this System.IO.Stream stream)
-        {
-        }
+        { }
 
 
         public static IAsyncResult BeginRead(this System.IO.Stream stream
@@ -153,8 +168,7 @@ namespace System
             return stream.WriteAsync(buffer, offset, count).AsApm(cb, state);
         }
 
-        public static void EndWrite(this System.IO.Stream stream
-           , IAsyncResult asyncResult)
+        public static void EndWrite(this System.IO.Stream stream, IAsyncResult asyncResult)
         {
             ((Task)asyncResult).Wait();
         }
@@ -203,6 +217,7 @@ namespace System
         }
 
 
+        // TODO: Correct ??? 
         public static IAsyncResult BeginReceiveFrom(this System.Net.Sockets.Socket socket
             ,byte[] buffer, int offset, int size,System.Net.Sockets.SocketFlags socketFlags,
             ref System.Net.EndPoint remoteEP
@@ -221,16 +236,11 @@ namespace System
 
 
         public static void Close(this System.Net.Sockets.Socket socket)
-        {
-        }
+        { }
 
 
         public static void Close(this System.Net.Sockets.NetworkStream stream)
-        {
-        }
-
-
-
+        { }
 
 
 
@@ -281,3 +291,5 @@ namespace System
 
 
 }
+
+#endif

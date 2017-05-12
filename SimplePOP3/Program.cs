@@ -1,9 +1,12 @@
-﻿using System;
-
+﻿
 namespace SimplePOP3
 {
-    class Program
+
+
+    public class Program
     {
+
+
         static void Main(string[] args)
         {
             byte[] ba = System.Text.Encoding.UTF8.GetBytes("Hello world");
@@ -17,8 +20,19 @@ namespace SimplePOP3
             byte[] foobar = md5.ComputeHash(ba);
             System.Console.WriteLine(foobar);
 
+            System.Reflection.TypeInfo ti = null;
+            System.Type t = null;
 
-            Console.WriteLine("Hello World!");
-        }
-    }
-}
+            System.Console.WriteLine(ti);
+            System.Console.WriteLine(t);
+
+            System.Console.WriteLine(System.Environment.NewLine);
+            System.Console.WriteLine(" --- Press any key to continue --- ");
+            System.Console.ReadKey();
+        } // End Sub Main 
+
+
+    } // End Class Program
+
+
+} // End Namespace SimplePOP3 

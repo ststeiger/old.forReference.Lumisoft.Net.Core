@@ -1,29 +1,32 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 using LumiSoft.Net.TCP;
 using LumiSoft.Net.AUTH;
 
+
 namespace LumiSoft.Net.POP3.Server
 {
+
+
     /// <summary>
     /// This class implements POP3 server. Defined RFC 1939.
     /// </summary>
     public class POP3_Server : TCP_Server<POP3_Session>
-    {        
-        private string m_GreetingText   = "";
-        private int    m_MaxBadCommands = 30;
+    {
+        private string m_GreetingText = "";
+        private int m_MaxBadCommands = 30;
 
         /// <summary>
         /// Default constructor.
         /// </summary>
         public POP3_Server()
-        {
-        }
+        { }
 
 
-        
+
         /// <summary>
         /// Is called when new incoming session and server maximum allowed connections exceeded.
         /// </summary>
@@ -36,9 +39,8 @@ namespace LumiSoft.Net.POP3.Server
             session.TcpStream.WriteLine("-ERR Client host rejected: too many connections, please try again later.");
         }
 
-        
 
-        
+
         /// <summary>
         /// Is called when new incoming session and server maximum allowed connections per connected IP exceeded.
         /// </summary>
@@ -51,31 +53,36 @@ namespace LumiSoft.Net.POP3.Server
             session.TcpStream.WriteLine("-ERR Client host rejected: too many connections from your IP(" + session.RemoteEndPoint.Address + "), please try again later.");
         }
 
-        
 
 
-        
         /// <summary>
         /// Gets or sets server greeting text.
         /// </summary>
         /// <exception cref="ObjectDisposedException">Is raised when this object is disposed and this property is accessed.</exception>
         public string GreetingText
         {
-            get{                
-                if(this.IsDisposed){
+            get
+            {
+                if (this.IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
-                return m_GreetingText; }
+                return m_GreetingText;
+            }
 
-            set{
-                if(this.IsDisposed){
+            set
+            {
+                if (this.IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
                 m_GreetingText = value;
             }
         }
+
+
 
         /// <summary>
         /// Gets or sets how many bad commands session can have before it's terminated. Value 0 means unlimited.
@@ -84,26 +91,35 @@ namespace LumiSoft.Net.POP3.Server
         /// <exception cref="ArgumentException">Is raised when invalid value is passed.</exception>
         public int MaxBadCommands
         {
-            get{
-                if(this.IsDisposed){
+            get
+            {
+                if (this.IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
-                return m_MaxBadCommands; 
+                return m_MaxBadCommands;
             }
 
-            set{
-                if(this.IsDisposed){
+            set
+            {
+                if (this.IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
-                if(value < 0){
+                if (value < 0)
+                {
                     throw new ArgumentException("Property 'MaxBadCommands' value must be >= 0.");
                 }
 
                 m_MaxBadCommands = value;
             }
+
+
         }
 
-        
-    }
-}
+
+    } // End Class POP3_Server : TCP_Server<POP3_Session>
+
+
+} // End Namespace LumiSoft.Net.POP3.Server 
